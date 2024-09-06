@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  app:
+    build: .
+    container_name: langchain_app
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    environment:
+      - OLLAMA_URL=http://localhost:11434
+    depends_on:
+      - chromadb
+
+  chromadb:
+    image: ghcr.io/chroma-core/chroma:latest
+    container_name: chromadb
+    ports:
+      - "8001:8001"
+    volumes:
+      - chromadb_data:/data
+
+volumes:
+  chromadb_data:
